@@ -1,0 +1,36 @@
+name: ServerLink
+version: 1.0.1
+main: com.serverlink.Main
+api-version: 1.21
+load: POSTWORLD
+folia-supported: true
+
+commands:
+  serverlink:
+    description: ServerLink main command
+    usage: /serverlink <help|connect|reload|add|remove|list>
+    aliases: [sl]
+  server:
+    description: Quick transfer command
+    usage: /server <server-name>
+
+permissions:
+  serverlink.help:
+    default: true
+  serverlink.connect:
+    default: true
+  serverlink.list:
+    default: true
+  serverlink.reload:
+    default: op
+  serverlink.add:
+    default: op
+  serverlink.remove:
+    default: op
+  serverlink.admin:
+    description: Wildcard for all admin commands
+    default: op
+    children:
+      serverlink.reload: true
+      serverlink.add: true
+      serverlink.remove: true

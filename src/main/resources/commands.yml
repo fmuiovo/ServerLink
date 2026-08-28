@@ -1,0 +1,6 @@
+usage:
+  connect: "usage.connect"
+  server: "usage.server"
+  add: "usage.add"
+  remove: "usage.remove"
+unknown_command: "message.unknown_command"

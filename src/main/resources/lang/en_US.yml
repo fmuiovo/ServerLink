@@ -1,0 +1,31 @@
+help_title: "§6===== ServerLink Help ====="
+help_lines:
+  - "§e/serverlink help §7‑Show help"
+  - "§e/serverlink connect <server> §7‑Transfer server"
+  - "§e/server <server> §7‑Quick transfer"
+  - "§e/serverlink list §7‑List available servers"
+  - "§e/serverlink add <name> <host> <port> §7‑Add server (Admin)"
+  - "§e/serverlink remove <name> §7‑Remove server (Admin)"
+  - "§e/serverlink reload §7‑Reload config (Admin)"
+
+message:
+  no_permission: "§cYou do not have permission"
+  only_player: "§cThis command can only run by player"
+  transfer_success: "§aTransferring to server: %s"
+  transfer_fail: "§cTransfer failed, server not found or unreachable"
+  spigot_not_support: "§cCurrent server core not support player transfer, use Paper/Folia/Leaves"
+  reload_success: "§aConfig reloaded"
+  server_already_exists: "§cServer already exists"
+  server_not_found: "§cServer entry not found"
+  server_added: "§aServer added"
+  server_removed: "§aServer removed"
+  unknown_command: "§cUnknown sub‑command, use /serverlink help"
+
+usage:
+  connect: "§cUsage: /serverlink connect <server‑name>"
+  server: "§cUsage: /server <server‑name>"
+  add: "§cUsage: /serverlink add <name> <host> <port>"
+  remove: "§cUsage: /serverlink remove <name>"
+
+list_header: "§6Available Servers:"
+list_item: "§7‑ %s (%s:%d)"

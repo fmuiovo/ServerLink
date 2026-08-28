@@ -1,0 +1,31 @@
+help_title: "§6===== ServerLink 說明 ====="
+help_lines:
+  - "§e/serverlink help §7‑檢視說明"
+  - "§e/serverlink connect <伺服器> §7‑轉移伺服器"
+  - "§e/server <伺服器> §7‑快速轉移"
+  - "§e/serverlink list §7‑列出可用伺服器"
+  - "§e/serverlink add <名稱> <host> <port> §7‑新增伺服器(管理員)"
+  - "§e/serverlink remove <名稱> §7‑刪除伺服器(管理員)"
+  - "§e/serverlink reload §7‑重新載入設定(管理員)"
+
+message:
+  no_permission: "§c你沒有執行此指令的權限"
+  only_player: "§c此指令僅可由玩家執行"
+  transfer_success: "§a正在跳轉至伺服器: %s"
+  transfer_fail: "§c跳轉失敗，伺服器不存在或無法連線"
+  spigot_not_support: "§c當前核心不支援玩家轉移，請使用 Paper/Folia/Leaves"
+  reload_success: "§a設定重新載入完成"
+  server_already_exists: "§c該伺服器已經存在"
+  server_not_found: "§c找不到該伺服器項目"
+  server_added: "§a伺服器已新增"
+  server_removed: "§a伺服器已刪除"
+  unknown_command: "§c未知子指令，輸入 /serverlink help 檢視說明"
+
+usage:
+  connect: "§c用法: /serverlink connect <伺服器名稱>"
+  server: "§c用法: /server <伺服器名稱>"
+  add: "§c用法: /serverlink add <名稱> <host> <port>"
+  remove: "§c用法: /serverlink remove <名稱>"
+
+list_header: "§6可用伺服器清單:"
+list_item: "§7‑ %s (%s:%d)"

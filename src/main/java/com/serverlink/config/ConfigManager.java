@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ConfigManager {
+
     private File commandsFile;
     private FileConfiguration commandsConfig;
 
@@ -26,7 +27,10 @@ public class ConfigManager {
         serverDataFile = new File(dataFolder, "servers-data.yml");
         if (!serverDataFile.exists()) {
             try {
-                serverDataFile.createNewFile();
+                boolean created = serverDataFile.createNewFile();
+                if (!created) {
+                    Main.getInstance().getLogger().severe("无法创建servers-data.yml！");
+                }
             } catch (IOException e) {
                 Main.getInstance().getLogger().severe("无法创建servers-data.yml！");
             }

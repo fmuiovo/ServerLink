@@ -45,11 +45,11 @@ public class ServerLinkCommand implements CommandExecutor {
                     return true;
                 }
                 if (args.length < 2) {
-                    sender.sendMessage(lang.get(cmdCfg.getString("usage.connect")));
+                    sender.sendMessage(cmdCfg.getString("usage.connect"));
                     return true;
                 }
                 String srv = args[1];
-                handleServerConnect(p, srv, lang, configManager, serverDataCfg, mainCfg);
+                handleServerConnect(p, srv, lang, serverDataCfg, mainCfg, sender);
                 return true;
             }
 
@@ -59,9 +59,8 @@ public class ServerLinkCommand implements CommandExecutor {
                     return true;
                 }
                 sender.sendMessage(lang.get("list_header"));
-                Set<String> keys = serverDataCfg.getConfigurationSection("servers") != null
-                        ? serverDataCfg.getConfigurationSection("servers").getKeys(false)
-                        : Set.of();
+                var serversSec = serverDataCfg.getConfigurationSection("servers");
+                Set<String> keys = (serversSec != null) ? serversSec.getKeys(false) : Set.of();
                 for (String name : keys) {
                     String h = serverDataCfg.getString("servers." + name + ".host");
                     int prt = serverDataCfg.getInt("servers." + name + ".port");
@@ -76,7 +75,7 @@ public class ServerLinkCommand implements CommandExecutor {
                     return true;
                 }
                 if (args.length < 4) {
-                    sender.sendMessage(lang.get(cmdCfg.getString("usage.add")));
+                    sender.sendMessage(cmdCfg.getString("usage.add"));
                     return true;
                 }
                 String name = args[1];
@@ -85,7 +84,7 @@ public class ServerLinkCommand implements CommandExecutor {
                 try {
                     prt = Integer.parseInt(args[3]);
                 } catch (NumberFormatException ex) {
-                    sender.sendMessage("§c端口必须为数字");
+                    sender.sendMessage(lang.get("message.port_must_number"));
                     return true;
                 }
                 if (serverDataCfg.contains("servers." + name)) {
@@ -106,7 +105,7 @@ public class ServerLinkCommand implements CommandExecutor {
                     return true;
                 }
                 if (args.length < 2) {
-                    sender.sendMessage(lang.get(cmdCfg.getString("usage.remove")));
+                    sender.sendMessage(cmdCfg.getString("usage.remove"));
                     return true;
                 }
                 String name = args[1];
@@ -129,8 +128,7 @@ public class ServerLinkCommand implements CommandExecutor {
                 sender.sendMessage(lang.get("message.reload_success"));
                 return true;
             }
-
-            sender.sendMessage(lang.get(cmdCfg.getString("unknown_command")));
+            sender.sendMessage(cmdCfg.getString("unknown_command"));
             return true;
         }
 
@@ -144,52 +142,79 @@ public class ServerLinkCommand implements CommandExecutor {
                 return true;
             }
             if (args.length < 1) {
-                sender.sendMessage(lang.get(cmdCfg.getString("usage.server")));
+                sender.sendMessage(cmdCfg.getString("usage.server"));
                 return true;
             }
             String srv = args[0];
-            handleServerConnect(p, srv, lang, configManager, serverDataCfg, mainCfg);
+            handleServerConnect(p, srv, lang, serverDataCfg, mainCfg, sender);
+            return true;
+        }
+
+        if (command.getName().equalsIgnoreCase("servertransfer")) {
+            if (!sender.hasPermission("serverlink.admin.transfer")) {
+                sender.sendMessage(lang.get("message.no_permission"));
+                return true;
+            }
+            if (args.length != 2) {
+                sender.sendMessage(cmdCfg.getString("usage.servertransfer"));
+                return true;
+            }
+            String targetPlayerName = args[0];
+            String serverKey = args[1];
+            Player targetPlayer = org.bukkit.Bukkit.getPlayer(targetPlayerName);
+            if (targetPlayer == null) {
+                sender.sendMessage(lang.get("message.player_offline"));
+                return true;
+            }
+            boolean success = handleServerConnect(targetPlayer, serverKey, lang, serverDataCfg, mainCfg, sender);
+            if(success){
+                sender.sendMessage(lang.getFormat("message.admin_transfer_success", targetPlayer.getName(), serverKey));
+            }
             return true;
         }
         return false;
     }
 
-    private void handleServerConnect(Player p, String srv, LanguageManager lang, ConfigManager configManager,
-                                     FileConfiguration serverDataCfg, FileConfiguration mainCfg) {
+    private boolean handleServerConnect(Player p, String srv, LanguageManager lang,
+                                        FileConfiguration serverDataCfg, FileConfiguration mainCfg,
+                                        CommandSender notifySender) {
         String host = serverDataCfg.getString("servers." + srv + ".host");
         int port = serverDataCfg.getInt("servers." + srv + ".port");
         String proxyName = serverDataCfg.getString("servers." + srv + ".proxy-name");
-
         if (host == null) {
-            p.sendMessage(lang.get("message.server_not_found"));
-            return;
+            notifySender.sendMessage(lang.get("message.server_not_found"));
+            return false;
         }
-
         String mode = mainCfg.getString("transfer-mode", "PAPER");
         if (mode.equalsIgnoreCase("PAPER")) {
             if (!TransferUtil.supportPaperTransfer()) {
-                p.sendMessage(lang.get("message.spigot_not_support"));
-                return;
+                notifySender.sendMessage(lang.get("message.spigot_not_support"));
+                return false;
             }
             try {
                 TransferUtil.paperTransfer(p, host, port);
                 p.sendMessage(lang.getFormat("message.transfer_success", srv));
+                return true;
             } catch (Exception e) {
-                p.sendMessage(lang.get("message.transfer_fail"));
+                notifySender.sendMessage(lang.get("message.transfer_fail"));
+                return false;
             }
         } else if (mode.equalsIgnoreCase("PROXY")) {
             if (!p.getServer().getMessenger().isOutgoingChannelRegistered(Main.getInstance(), "BungeeCord")) {
-                p.sendMessage(lang.get("message.proxy_no_proxy"));
-                return;
+                notifySender.sendMessage(lang.get("message.proxy_no_proxy"));
+                return false;
             }
             boolean ok = TransferUtil.proxyTransfer(p, proxyName);
             if (ok) {
                 p.sendMessage(lang.getFormat("message.transfer_success", srv));
+                return true;
             } else {
-                p.sendMessage(lang.get("message.proxy_send_fail"));
+                notifySender.sendMessage(lang.get("message.proxy_send_fail"));
+                return false;
             }
         } else {
-            p.sendMessage("§c无效的transfer‑mode配置！");
+            notifySender.sendMessage("§cInvalid transfer‑mode");
+            return false;
         }
     }
 }

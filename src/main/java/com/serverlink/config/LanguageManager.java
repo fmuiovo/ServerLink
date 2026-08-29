@@ -5,22 +5,50 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.List;
 
 public class LanguageManager {
     private FileConfiguration langConfig;
+
+    private final List<String> builtinLangs = List.of(
+            "zh_CN",
+            "zh_TW",
+            "en_US",
+            "de_DE",
+            "es_ES",
+            "fr_FR",
+            "ja_JP",
+            "pt_BR",
+            "ru_RU"
+    );
+
+    public void saveAllLanguages() {
+        File langFolder = new File(Main.getInstance().getDataFolder(), "lang");
+        if (!langFolder.exists()) {
+            langFolder.mkdirs();
+        }
+        for (String langId : builtinLangs) {
+            String resPath = "lang/" + langId + ".yml";
+            File outFile = new File(langFolder, langId + ".yml");
+            if (!outFile.exists()) {
+                Main.getInstance().saveResource(resPath, false);
+            }
+        }
+    }
 
     public void loadLang() {
         String langId = Main.getInstance().getConfig().getString("language", "zh_CN");
         File langFolder = new File(Main.getInstance().getDataFolder(), "lang");
         if (!langFolder.exists()) langFolder.mkdirs();
+
         File langFile = new File(langFolder, langId + ".yml");
         if (!langFile.exists()) {
-            Main.getInstance().saveResource("lang/" + langId + ".yml", false);
+            Main.getInstance().getLogger().warning("Language file " + langId + ".yml not found, fallback to en_US");
+            langFile = new File(langFolder, "en_US.yml");
         }
         langConfig = YamlConfiguration.loadConfiguration(langFile);
     }
 
-    // 新增对外获取langConfig
     public FileConfiguration getLangConfig() {
         return langConfig;
     }

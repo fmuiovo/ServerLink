@@ -14,14 +14,18 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+
         configManager = new ConfigManager();
         configManager.loadAll();
+
         languageManager = new LanguageManager();
+        languageManager.saveAllLanguages();
         languageManager.loadLang();
 
         ServerLinkCommand executor = new ServerLinkCommand();
         getCommand("serverlink").setExecutor(executor);
         getCommand("server").setExecutor(executor);
+        getServer().getPluginCommand("servertransfer").setExecutor(executor);
     }
 
     public void reloadAll() {

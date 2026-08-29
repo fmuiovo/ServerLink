@@ -134,7 +134,6 @@ public class ServerLinkCommand implements CommandExecutor {
             return true;
         }
 
-        // /server快捷指令
         if (command.getName().equalsIgnoreCase("server")) {
             if (!(sender instanceof Player p)) {
                 sender.sendMessage(lang.get("message.only_player"));
@@ -179,7 +178,6 @@ public class ServerLinkCommand implements CommandExecutor {
                 p.sendMessage(lang.get("message.transfer_fail"));
             }
         } else if (mode.equalsIgnoreCase("PROXY")) {
-            // 这里替换：直接判断玩家是否连接Bungee/Velocity代理，删除不存在的hasProxyConnection
             if (!p.getServer().getMessenger().isOutgoingChannelRegistered(Main.getInstance(), "BungeeCord")) {
                 p.sendMessage(lang.get("message.proxy_no_proxy"));
                 return;

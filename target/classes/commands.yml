@@ -1,7 +1,0 @@
-usage:
-  connect: "§cUsage: /serverlink connect <server>"
-  server: "§cUsage: /server <server>"
-  add: "§cUsage: /serverlink add <name> <ip> <port>"
-  remove: "§cUsage: /serverlink remove <server>"
-  servertransfer: "§cUsage: /servertransfer <player> <server>"
-  unknown_command: "§cUnknown command, use /serverlink help"

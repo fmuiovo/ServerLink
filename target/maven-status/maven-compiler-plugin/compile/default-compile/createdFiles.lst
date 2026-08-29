@@ -1,6 +1,0 @@
-com\serverlink\Main.class
-com\serverlink\config\ConfigManager.class
-com\serverlink\config\LanguageManager.class
-org\example\App.class
-com\serverlink\util\TransferUtil.class
-com\serverlink\command\ServerLinkCommand.class

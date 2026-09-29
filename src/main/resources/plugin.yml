@@ -1,35 +1,23 @@
 name: ServerLink
-version: 1.0.2
+version: 1.0.3
 main: com.serverlink.Main
-api-version: 1.21
-load: POSTWORLD
-folia-supported: true
-
+api-version: 26.1
+authors: []
+description: Paper26.x Java25 Vanilla Transfer No Proxy v1.0.3
 commands:
   serverlink:
     description: ServerLink main command
-    usage: /serverlink <help|connect|reload|add|remove|list>
-    aliases: [sl]
+    permission: serverlink.use
   server:
     description: Quick transfer command
-    usage: /server <server-name>
-  servertransfer:
-    description: Force transfer player
-    usage: /servertransfer <player> <server>
-
 permissions:
-  serverlink.help:
-    default: true
-  serverlink.connect:
-    default: true
-  serverlink.list:
+  serverlink.use:
     default: true
   serverlink.reload:
     default: op
-  serverlink.add:
+  serverlink.transfer:
+    default: true
+  serverlink.optransfer:
     default: op
-  serverlink.remove:
-    default: op
-  serverlink.admin.transfer:
-    description: Force transfer other player
+  serverlink.server:
     default: op

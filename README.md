@@ -21,22 +21,36 @@ Paper 原生 Transfer 跨服跳转插件，**无需代理、无需 Bungee/Veloci
 
 ## 全部指令
 /serverlink help                          查看插件帮助
+
 /serverlink transfer <服务器名>           自身跨服跳转
+
 /serverlink optransfer < 玩家 > < 服务器名 >  强制转移指定玩家
+
 /serverlink list                          查看所有可跳转服务器
+
 /serverlink server add < 名称 > <IP> <端口> 新增跨服服务器
+
 /serverlink server remove < 名称 >          删除跨服服务器
+
 /serverlink config                        查看配置说明
+
 /serverlink config config.language < 语言 ID> 在线切换插件语言
+
 /serverlink reload                        重载全部配置与语言
+
 /server                                   查看服务器列表
+
 /server <服务器名>                        快捷跨服跳转
 
 ## 权限节点
 serverlink.use        基础使用权限（帮助、列表、查看配置）
+
 serverlink.transfer   玩家跨服跳转权限
+
 serverlink.reload     重载配置、切换语言权限
+
 serverlink.optransfer 管理员强制转移玩家权限
+
 serverlink.server     增删服务器列表权限
 
 ## 许可协议

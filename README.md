@@ -4,7 +4,9 @@ Paper 原生 Transfer 跨服跳转插件，**无需代理、无需 Bungee/Veloci
 ## 兼容版本
 支持 Paper / Purpur / Leaves / Folia
 `26.1.x / 26.2 / 26.3`
+
 运行环境：Java自服务端版本决定 
+
 不支持：Spigot、1.20.4 及以下旧版本
 
 ## 前置要求
